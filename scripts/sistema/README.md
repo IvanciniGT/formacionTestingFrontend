@@ -7,8 +7,17 @@ Así en otro proyecto podemos crear otro entorno virtual con otras librerias o v
 
 # Crear el entorno virtual donde descargar las librerías
 $ python3 -m venv venv   # ( Si no funciona: $ python -m venv venv )
+
 # Activar el entorno virtual
 $ source venv/bin/activate   # ( Mac / Linux)
 $ .\venv\Scripts\activate    # ( Windows )
+
 # Instalar las librerías necesarias
 (venv) $ pip install -r requirements.txt
+
+# Ejecutar las pruebas
+(venv) $ python login/login_test.py
+
+
+# Desactivar el entorno virtual
+(venv) $ deactivate
