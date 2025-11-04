@@ -547,3 +547,4 @@ Para configurar un grid de selenium, la forma más sencilla es con Contenedores 
 
 En pruebas de sistema me da igual todo eso. Podemos usar las mismas herramientas en ambos casos y despreocupamosos de la arquitectura interna del sistema.
 SELENIUM.
+
