@@ -274,3 +274,26 @@ Sintaxis de XPATH
 - Cerrar el navegador
 
 En algunos casos, podré adicionalmente hacer capturas de pantalla (screenshots) de la página web en ciertos momentos.
+
+---
+
+Estas pruebas las hemos estado ejecutando en local.
+Con un driver de chrome que descargamos sobre la marcha.
+Y contra un chrome que tenemos instalado en nuestro equipo.
+
+En la realidad no querremos trabajar así.
+Querremos trabajar contra un grid de selenium.
+
+Para esto vamos a necesitar 2 cosas:
+1. Montar el grid (o usar un servicio en la nube)
+   Montar uno es bastante fácil con docker (5 minutos) . Me lo regala la gente de selenium.
+   - Copiamos un archivo que nos ofreece la gente de selenium
+   - Lo lanzamos con docker compose up -d en la carpeta donde tengamos ese archivo.
+2. Cambiar nuestro script de pruebas para que en lugar de usar un driver local, use un driver remoto (el del grid)
+
+  ````
+  driver = webdriver.Remote(
+      command_executor='http://localhost:4444/wd/hub',
+      options=options
+  )
+  ````
