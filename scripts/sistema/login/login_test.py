@@ -114,7 +114,7 @@ class LoginTest(unittest.TestCase):
         
         # CUANDO
         # Meto en el formulario de login la contraseña en el input cuyo id es "password"
-        self.driver.find_element("id", self.ID_CAMPO_CONTRASENA).send_keys
+        self.driver.find_element("id", self.ID_CAMPO_CONTRASENA).send_keys(self.CONTRASENA_CORRECTA)
         # Hacer click en el botón de login
         self.click_en_boton_login()
 
@@ -163,4 +163,3 @@ class LoginTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main() 
-
