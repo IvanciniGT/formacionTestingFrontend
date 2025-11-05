@@ -1,0 +1,16 @@
+{
+  "name": "sistema_cypress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run",
+    "test-dev": "cypress open"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cypress": "^15.6.0",
+    "cypress-xpath": "^2.0.1"
+  }
+}
