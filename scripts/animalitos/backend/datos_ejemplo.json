@@ -1,25 +1,25 @@
 {
   "animalitos": [
     {
-      "id": "1",
+      "id": 1,
       "nombre": "Firulais",
-      "tipo": "Perro",
+      "especie": "Perro",
       "edad": 3,
       "raza": "Labrador",
       "descripcion": "Un perro amigable y juguetón."
     },
     {
-      "id": "2",
+      "id": 2,
       "nombre": "Misu",
-      "tipo": "Gato",
+      "especie": "Gato",
       "edad": 2,
       "raza": "Siames",
       "descripcion": "Un gato curioso y cariñoso."
     },
     {
-      "id": "3",
+      "id": 3,
       "nombre": "Nemo",
-      "tipo": "Pez",
+      "especie": "Pez",
       "edad": 1,
       "raza": "Payaso",
       "descripcion": "Un pez colorido y activo."

@@ -288,3 +288,149 @@ JS tiene un pequeño GIGANTESCO PROBLEMA: Es un lenguaje de tipado dinámico.
 
 Creamos el proyecto de Angular:
 $ ng new animalitos
+
+
+---
+
+# Tenemos el servicio de animalitos
+
+   AnimalitosService -----> Backend (json-server)
+                                        fake
+                                        Algo que a priori se comporta como un backend real
+                                        Aunque no ofrece toda la funcionalidad de un backend real
+                                        (No hay una BBDD real detrás, ni lógica de negocio compleja, etc.)
+                                        Solo metemos persistencia básica de datos en un archivo JSON
+
+                                        De hecho si completaramos algo más de funcionalidad en el fake... acabaría siendo el backend real.
+
+Ahí tenemos 2 componentes de nuestra app:
+- AnimalitosService: Servicio que se encarga de llamar al backend para obtener los datos
+- Backend
+
+En nuestro caso, qué queremos hacer?
+- Pruebas Unitarias?         Sería una prueba del servicio AnimalitosService AISLADO del backend.
+
+    AnimalitosService |-> Backend REAL --> BBDD REAL
+
+    Claro... realmente el animalitosService necesita un backend. Pero no voy a poner uno que se llame realmente por HTTP.
+    Lo que voy a hacer es intercerptar la comunicación HTTP que el servicio de animalitos trata de hacer con el backend.. Y cuando vea que esa comunicación HTTP se va a hacer, en lugar de dejar que se haga realmente, voy a hacer que se simule que se hace y se devuelvan 4 datos fijos!
+
+- Pruebas de Integración?
+- Pruebas de Sistema (end to end)? No las podemos hacer ahora mismo... pero no las puedo hacer no porque no haya pantallas, sino porque no hay un backend real con su BBDD... y sus cosas. En el futuro las podre hacer.. Y QUERRÉ HACERLAS ! Para eso necesito que los tios que están haciendo el backend terminen su trabajo, para que haya un SISTEMA que probar.
+
+  AnimalitosService -> Backend REAL --> BBDD REAL
+
+    Eso sería un Prueba de Sistema (end to end) (a este nivel)
+    Otra prueba de sistema será :
+  
+  ComponentesHTMLFrontal -> AnimalitosService -> Backend REAL --> BBDD REAL
+
+    Eso sería otra Prueba de Sistema (end to end) 
+    Los componentes con los que trabaje sean todos los componentes de la app, desde el nivel que estoy hacia abajo.
+    Y que sean componentes reales, no de carton piedra (como por ejemplo es el json-server)
+
+    Cuando trabajamos con postman, solemos hacer pruebas de sistema del backend
+    
+    ->  Backend REAL --> BBDD REAL.. y más cosas que tuviera
+
+Muchas veces, la diferencia entre una prueba unitaria, de integración o de sistema solo es cuestión de perspectiva!
+
+Soy el fabricante de una dinamo para bicicletas.
+  Me encargo de coger un núcleo de hierro, ponerle unas bobinas de cobre, un imán, etc.
+  Sacarle unos cables poner una bombilla.
+
+  Para mi, una prueba unitaria que sería? Una prueba sobre un componente aislado de mi sistema (dinamo)
+   - Por ejemplo, probar a ver si cuando a la bombilla le llega corriente, se enciende.
+     Espero que el pendejo que me haya vendido la bombilla me haya vendido una que funciona!
+  Para mi... fabricante de la dinamo, el probar la dinamo entera, con su bomilla, su todo ahí funcionando sería una prueba de sistema (end to end)
+
+Soy el fabricante de bicicletas.
+  Y encargo una dinamo. Me la mandan...
+  La pruebo... Para mí que tipo de prueba es? Simplemente cojo la dinamo, la monto en un bastidor (4 hierros) con su bombilla (el pack completo que me mandan) Y hago que la dinamo gire muy rápido a ver si la bombilla se enciende.
+  
+  UNITARIA!
+  
+
+Si soy el desarrollador del backend, probar el backend con postman para mi es una prueba de sistema (end to end)
+
+Porque el backend es mi entregable.. es mi sistema!
+
+Para el que monta la app en su conjunto, el backend es un componente más... al que podrá hacer una prueba unitaria.
+O de integración con el resto de componentes de la app.
+
+---
+
+Es responsabilidad de mi animalitos service el hacer la petición http al backend? NO
+
+Solo pedimos a un ClienteHTTP que haga la petición.
+El ClienteHTTP es el que sabe hacer peticiones HTTP... abre puertos, manda cabezeras, etc.
+Yo solo le pido al cliente HTTP que haga la petición. ESA ES MI RESPONSABILIDAD.
+
+Otra responsabilidad mia cual sería? (qué más debe hacer/hace nuestra función)
+  Transformar los datos que manda el backend (al menos los que me devuelve el cliente http) en la estructura/formato que yo quiero en el frontal.
+
+```ts
+    getAnimalitos(): Observable<AnimalitoViewModel[]> {
+        return this.http.get<Animalito[]>(AnimalitosServiceImpl.API_URL).pipe(
+            map(animalitos => animalitos.map(AnimalitosMapper.toViewModel))
+        );
+    }
+```
+
+Qué cliente HTTP Estamos usando? HttpClient de Angular
+Y ese tio, el HttpClient, el cabrón hace peticiones HTTP de verdad.
+En el momento que hagamos una petición HTTP de verdad, ya sería una prueba unitaria? NO
+Ya estaríamos comunicándonos con un backend ... sería al menos una prueba de integración.
+
+Lo que podemos hacer es al crear el AnimalitosService, (en su constructor) no pasarle el HttpClient real... sino una clase con los mismos métodos que el HttpClient:
+- get
+- post
+- put
+- delete
+
+Pero con una implementación de pega.
+
+Nuestra clase, tendrá un método get:
+
+```ts
+    get<T>(url: string): Observable<T> {
+        const animallitosDePegote: Animalito[] = [
+            { id: 1, nombre: 'Firulais', tipo: 'Perro', edad: 3 },
+            { id: 2, nombre: 'Misu', tipo: 'Gato', edad: 2 },
+        ];
+        return animallitosDePegote ;
+    }
+    // Esta función está realmente haciendo una petición HTTP? NO
+    // Está devolviendo datos fijos de pega (STUB)
+    // Hemos stubeado el método get del HttpClient
+```
+// Pregunta, ese método puede fallar al ser invocado? IMPOSIBLE = Confío plenamente en ese método ( Igual que confíaba en los 4 hierros mal soldaos donde sujetaba el sillín o en el sensor de presión del sistema de frenos para hacer la prueba)
+
+Por tanto, caso que la prueba vaya mal, el problema no estará en el HttpClient (que es un STUB que siempre funciona) sino en mi AnimalitosService. <- UNITARIA !
+
+> Otra...
+
+Cojo el cliente HTTP de verdad de la buena!
+Y le pongo a trabajar con el json-server (fake backend)
+Confío en el json-server? SI, por eso lo uso.
+Hay posibilidades de que falle? NO
+Solo hace 4 operaciones de mierda... más que probadas ya por cientos de desarrolladores.
+No hay BBDD de verdad que puedan estar caídas, ni lógica de negocio compleja que pueda fallar, no hay firewalls, ni redes, ni ná de ná que pueda fallar.
+
+Por lo tanto, Si mi Servicio de animalitos funciona, que lo he probado aislado de todo.
+Y confío plenamente en que el jsonserver funciona.
+Si cuando los junto no funcionan (la prueba falla) el problema está en la COMUNICACIÓN entre ambos.
+Quizás uno da los datos en UTF-8 y el otro los espera en ASCII.
+O uno cierra las pinzas pero no tanto como para apretar la llanta del otro!
+
+Funcionan bien por separado.. pero juntos NO!
+
+¿Qué tipo de prueba es esa? INTEGRACIÓN! = COMUNICACIÓN ENTRE 2 COMPONENTES QUE FUNCIONAN BIEN POR SEPARADO
+
+Quizás es que el json-server espera una cabera X-Auth-Token y mi servicio de animalitos no se la está poniendo.
+Hay un problema en la comunicación entre ambos.
+Lo que estoy probando es el protocolo http entre ellos y como hacen uso de ese protocolo (COMUNICACION)
+
+
+Los frameworks, todos, me ofrecen ya utilidades para hacer todo este tipo de pruebas.
+Yo no voy a montar un cliente HTTP de pega. Angular igual que me da el HttpClient real, me da un HttpClient de pega para hacer pruebas unitarias. Si ya está inventao.

@@ -22,7 +22,7 @@ export class AnimalitosServiceImpl extends AnimalitosService {
     // Angular me ofrece un cliente para hacer peticiones HTTP a un backend
     // llamado HttpClient, que se encuentra en el módulo @angular/common/http
     // puedo solicitar ese cliente inyectándolo en el constructor de este servicio
-    static readonly API_URL = 'https://localhost:3000/animalitos';
+    static readonly API_URL = 'http://localhost:3000/animalitos';
 
     constructor(private readonly http: HttpClient) {
         super();
