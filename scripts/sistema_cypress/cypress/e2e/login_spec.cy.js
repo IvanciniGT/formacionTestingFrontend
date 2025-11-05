@@ -46,5 +46,61 @@ describe('Login Test Suite', () => {
     cy.screenshot('despues_login_exitoso');
   })
 
+  it('Login no exitoso por no rellenar nombre de usuario', () => {
+    // Dado
+    cy.visit(URL_LOGIN)
+    // Relleno solo la contraseña
+    cy.get('#' + ID_CAMPO_CONTRASENA).type(CONTRASENA_CORRECTA);
+    cy.screenshot('antes_login_no_exitoso_usuario_vacio');
+    // Cuando hago click en el botón de login
+    cy.get('#' + ID_BOTON_LOGIN).click();
+    // Entonces la URL debe ser la de login no exitoso y debe mostrarse el mensaje de error
+    cy.url().should('eq', URL_LOGIN_NO_EXITOSO);
+    cy.xpath(XPATH_MENSAJE_ERROR).should('be.visible');
+    cy.screenshot('despues_login_no_exitoso_usuario_vacio');
+  } )
+
+  it('Login no exitoso por no rellenar contraseña', () => {
+    // Dado
+    cy.visit(URL_LOGIN)
+    cy.get('#' + ID_CAMPO_USUARIO).type(USUARIO_CORRECTO);
+    cy.screenshot('antes_login_no_exitoso_usuario_vacio');
+    // Cuando hago click en el botón de login
+    cy.get('#' + ID_BOTON_LOGIN).click();
+    // Entonces la URL debe ser la de login no exitoso y debe mostrarse el mensaje de error
+    cy.url().should('eq', URL_LOGIN_NO_EXITOSO);
+    cy.xpath(XPATH_MENSAJE_ERROR).should('be.visible');
+    cy.screenshot('despues_login_no_exitoso_usuario_vacio');
+  } )
+
+  it('Login no exitoso por rellenar contraseña incorrecta', () => {
+    // Dado
+    cy.visit(URL_LOGIN)
+    cy.get('#' + ID_CAMPO_USUARIO).type(USUARIO_CORRECTO);
+    cy.get('#' + ID_CAMPO_CONTRASENA).type(CONTRASENA_CORRECTA + "X");
+
+    cy.screenshot('antes_login_no_exitoso_usuario_vacio');
+    // Cuando hago click en el botón de login
+    cy.get('#' + ID_BOTON_LOGIN).click();
+    // Entonces la URL debe ser la de login no exitoso y debe mostrarse el mensaje de error
+    cy.url().should('eq', URL_LOGIN_NO_EXITOSO);
+    cy.xpath(XPATH_MENSAJE_ERROR).should('be.visible');
+    cy.screenshot('despues_login_no_exitoso_usuario_vacio');
+  } )
+
+  it('Login no exitoso por rellenar usuario incorrecto', () => {
+    // Dado
+    cy.visit(URL_LOGIN)
+    // Relleno solo la contraseña
+    cy.get('#' + ID_CAMPO_USUARIO).type(USUARIO_CORRECTO + "X");
+    cy.get('#' + ID_CAMPO_CONTRASENA).type(CONTRASENA_CORRECTA);
+    cy.screenshot('antes_login_no_exitoso_usuario_vacio');
+    // Cuando hago click en el botón de login
+    cy.get('#' + ID_BOTON_LOGIN).click();
+    // Entonces la URL debe ser la de login no exitoso y debe mostrarse el mensaje de error
+    cy.url().should('eq', URL_LOGIN_NO_EXITOSO);
+    cy.xpath(XPATH_MENSAJE_ERROR).should('be.visible');
+    cy.screenshot('despues_login_no_exitoso_usuario_vacio');
+  } )
 
 })
