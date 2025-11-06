@@ -3,6 +3,12 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { AnimalitosServiceImpl } from './animalitos.service';
 import { AnimalitoViewModel } from '../models/animalito.view.model';
 
+
+//###
+//### EJECUTAR CON :  npx concurrently "npm run fake-backend" "ng test --include src/components/animalito-form/animalito-form.component.spec.ts"
+//###
+
+
 describe('AnimalitosService - INTEGRATION TESTS', () => {
   let service: AnimalitosServiceImpl;
   let httpClient: HttpClient;

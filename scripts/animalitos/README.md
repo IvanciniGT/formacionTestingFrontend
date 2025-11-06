@@ -45,7 +45,7 @@ La aplicación estará disponible en:
 # Desarrollo
 npm start              # Solo frontend (Angular)
 npm run fake-backend   # Solo backend (JSON Server)
-npm run dev           # Frontend + Backend juntos
+npm run dev            # Frontend + Backend juntos
 
 # Testing
 npm test                    # Todos los tests en modo watch
