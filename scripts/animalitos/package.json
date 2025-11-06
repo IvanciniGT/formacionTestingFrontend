@@ -14,7 +14,8 @@
     "test:service:full": "npm run test:unit && echo '\\n--- INTEGRATION TESTS (with JSON server) ---' && npm run test:integration:full",
     "json-server:test": "json-server --watch backend/datos_testing.json --port 3000",
     "json-server:dev": "json-server --watch backend/datos_ejemplo.json --port 3000",
-    "fake-backend": "json-server --watch backend/datos_ejemplo.json --port 3000"
+    "fake-backend": "json-server --watch backend/datos_ejemplo.json --port 3000",
+    "dev": "concurrently \"npm run fake-backend\" \"ng serve\""
   },
   "private": true,
   "dependencies": {

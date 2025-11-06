@@ -1,0 +1,52 @@
+<div class="animalito-detail-container" *ngIf="animalito">
+  <div class="detail-header">
+    <button class="btn btn-back" (click)="onBack()">
+      ← Volver al listado
+    </button>
+    <button class="btn btn-edit" (click)="onEdit()">
+      ✏️ Editar
+    </button>
+  </div>
+
+  <div class="animalito-detail-card">
+    <div class="animalito-avatar">
+      <div class="avatar-circle">
+        <span class="avatar-emoji">{{ getAnimalEmoji(animalito.especie) }}</span>
+      </div>
+      <h1>{{ animalito.nombre }}</h1>
+    </div>
+
+    <div class="animalito-info">
+      <div class="info-section">
+        <h3>Información Básica</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Especie:</span>
+            <span class="value especie">{{ animalito.especie }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Raza:</span>
+            <span class="value">{{ animalito.raza }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Edad:</span>
+            <span class="value">{{ animalito.edad }} {{ animalito.edad === 1 ? 'año' : 'años' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">ID:</span>
+            <span class="value id">#{{ animalito.id }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section" *ngIf="animalito.descripcion">
+        <h3>Descripción</h3>
+        <p class="description">{{ animalito.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="empty-detail" *ngIf="!animalito">
+  <p>Selecciona un animalito para ver sus detalles</p>
+</div>

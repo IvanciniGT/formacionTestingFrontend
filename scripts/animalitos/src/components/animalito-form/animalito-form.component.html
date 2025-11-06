@@ -1,0 +1,121 @@
+<div class="animalito-form-container">
+  <div class="form-header">
+    <h2>{{ isEditing ? 'Editar' : 'Agregar' }} Animalito</h2>
+    <button class="btn btn-cancel" (click)="onCancel()">
+      ✖️ Cancelar
+    </button>
+  </div>
+
+  <form class="animalito-form" (ngSubmit)="onSubmit()" #animalForm="ngForm">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="nombre">Nombre *</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          [(ngModel)]="formData.nombre"
+          required
+          #nombreInput="ngModel"
+          class="form-control"
+          placeholder="Ej: Firulais"
+          maxlength="50">
+        <div class="error-message" *ngIf="nombreInput.invalid && nombreInput.touched">
+          El nombre es obligatorio
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="especie">Especie *</label>
+        <select
+          id="especie"
+          name="especie"
+          [(ngModel)]="formData.especie"
+          required
+          #especieInput="ngModel"
+          class="form-control">
+          <option value="">Selecciona una especie</option>
+          <option *ngFor="let especie of especies" [value]="especie">
+            {{ especie }}
+          </option>
+        </select>
+        <div class="error-message" *ngIf="especieInput.invalid && especieInput.touched">
+          La especie es obligatoria
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="edad">Edad *</label>
+        <input
+          type="number"
+          id="edad"
+          name="edad"
+          [(ngModel)]="formData.edad"
+          required
+          min="0"
+          max="50"
+          #edadInput="ngModel"
+          class="form-control"
+          placeholder="Años">
+        <div class="error-message" *ngIf="edadInput.invalid && edadInput.touched">
+          <span *ngIf="edadInput.errors?.['required']">La edad es obligatoria</span>
+          <span *ngIf="edadInput.errors?.['min']">La edad debe ser mayor a 0</span>
+          <span *ngIf="edadInput.errors?.['max']">La edad debe ser menor a 50</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="raza">Raza *</label>
+        <input
+          type="text"
+          id="raza"
+          name="raza"
+          [(ngModel)]="formData.raza"
+          required
+          #razaInput="ngModel"
+          class="form-control"
+          placeholder="Ej: Labrador"
+          maxlength="50">
+        <div class="error-message" *ngIf="razaInput.invalid && razaInput.touched">
+          La raza es obligatoria
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group full-width">
+      <label for="descripcion">Descripción</label>
+      <textarea
+        id="descripcion"
+        name="descripcion"
+        [(ngModel)]="formData.descripcion"
+        class="form-control"
+        placeholder="Descripción opcional del animalito..."
+        rows="4"
+        maxlength="500"></textarea>
+      <small class="character-count">
+        {{ formData.descripcion.length }}/500 caracteres
+      </small>
+    </div>
+
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="onCancel()">
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary" 
+        [disabled]="animalForm.invalid || saving">
+        <span *ngIf="saving">Guardando...</span>
+        <span *ngIf="!saving">{{ isEditing ? 'Actualizar' : 'Crear' }} Animalito</span>
+      </button>
+    </div>
+  </form>
+
+  <div class="error-alert" *ngIf="error">
+    <p>❌ {{ error }}</p>
+    <button class="btn btn-link" (click)="error = ''">Cerrar</button>
+  </div>
+</div>

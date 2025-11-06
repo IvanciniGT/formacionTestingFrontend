@@ -1,0 +1,22 @@
+<div class="animalito-card" (click)="onSelect()">
+  <div class="animalito-info">
+    <h3>{{ animalito.nombre }}</h3>
+    <p class="especie">{{ animalito.especie }}</p>
+    <p class="edad">{{ animalito.edad }} años</p>
+    <p class="raza">{{ animalito.raza }}</p>
+  </div>
+  <div class="animalito-actions">
+    <button 
+      class="btn btn-edit" 
+      (click)="onEdit($event)"
+      title="Editar">
+      ✏️
+    </button>
+    <button 
+      class="btn btn-delete" 
+      (click)="onDelete($event)"
+      title="Eliminar">
+      🗑️
+    </button>
+  </div>
+</div>

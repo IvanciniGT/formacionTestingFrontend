@@ -1,2 +1,36 @@
-<h1>Bienvenido a la app de Animalitos</h1>
-<p> Desde aquí podrás ver nuestros adorables animalitos.</p>
+<div class="app-container">
+  <header class="app-header">
+    <h1>🐾 Animalitos App</h1>
+    <p>Gestiona tu colección de adorables animalitos</p>
+  </header>
+
+  <main class="app-main">
+    <!-- Vista de Listado -->
+    <app-animalito-list
+      *ngIf="currentView === 'list'"
+      (selected)="onAnimalitoSelected($event)"
+      (addRequested)="onAddAnimalito()"
+      (editRequested)="onEditAnimalito($event)">
+    </app-animalito-list>
+
+    <!-- Vista de Detalle -->
+    <app-animalito-detail
+      *ngIf="currentView === 'detail'"
+      [animalito]="selectedAnimalito"
+      (backRequested)="onBackToList()"
+      (editRequested)="onEditAnimalito($event)">
+    </app-animalito-detail>
+
+    <!-- Vista de Formulario -->
+    <app-animalito-form
+      *ngIf="currentView === 'form'"
+      [animalito]="editingAnimalito"
+      (saved)="onAnimalitoSaved($event)"
+      (cancelled)="onFormCancelled()">
+    </app-animalito-form>
+  </main>
+
+  <footer class="app-footer">
+    <p>🚀 Desarrollado con Angular</p>
+  </footer>
+</div>

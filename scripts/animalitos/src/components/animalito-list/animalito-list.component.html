@@ -1,0 +1,36 @@
+<div class="animalito-list-container">
+  <div class="list-header">
+    <h2>Lista de Animalitos</h2>
+    <button class="btn btn-primary" (click)="onAdd()">
+      ➕ Agregar Animalito
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Cargando animalitos...</p>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <p>❌ {{ error }}</p>
+    <button class="btn btn-secondary" (click)="loadAnimalitos()">
+      🔄 Reintentar
+    </button>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && !error && animalitos.length === 0">
+    <p>No hay animalitos registrados</p>
+    <button class="btn btn-primary" (click)="onAdd()">
+      ➕ Agregar el primero
+    </button>
+  </div>
+
+  <div class="animalitos-grid" *ngIf="!loading && !error && animalitos.length > 0">
+    <app-animalito-list-entry
+      *ngFor="let animalito of animalitos"
+      [animalito]="animalito"
+      (selected)="onSelect($event)"
+      (edited)="onEdit($event)"
+      (deleted)="onDelete($event)">
+    </app-animalito-list-entry>
+  </div>
+</div>

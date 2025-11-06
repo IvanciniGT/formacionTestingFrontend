@@ -1,0 +1,62 @@
+.animalito-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px 0;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.animalito-card:hover {
+  border-color: #4CAF50;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.animalito-info h3 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 1.2em;
+}
+
+.animalito-info p {
+  margin: 4px 0;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.especie {
+  font-weight: bold;
+  color: #4CAF50 !important;
+}
+
+.animalito-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 1.2em;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #f5f5f5;
+}
+
+.btn-edit:hover {
+  background-color: #e3f2fd;
+}
+
+.btn-delete:hover {
+  background-color: #ffebee;
+}
