@@ -1,14 +1,6 @@
 {
   "animalitos": [
     {
-      "id": "1",
-      "nombre": "Firulais",
-      "especie": "Perro",
-      "edad": 3,
-      "raza": "Labrador",
-      "descripcion": "Un perro amigable y juguetón."
-    },
-    {
       "id": "2",
       "nombre": "Misu",
       "especie": "Gato",
@@ -25,12 +17,12 @@
       "descripcion": "Un pez colorido y activo... y con pocas luces..."
     },
     {
-      "id": 0,
-      "nombre": "Lucas",
-      "especie": "Pájaro",
-      "edad": 1,
-      "raza": "Loro",
-      "descripcion": "Muy cotorro este loro!"
+      "id": "1",
+      "nombre": "NuevoNombre",
+      "especie": "Gato",
+      "edad": 4,
+      "raza": "NuevoRaza",
+      "descripcion": "Nueva descripcion"
     }
   ]
 }
